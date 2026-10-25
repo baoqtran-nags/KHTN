@@ -1,0 +1,6 @@
+{
+  "name": "KHTN 7 - Ôn Tập & Luyện Đề Hóa Học",
+  "description": "Nền tảng ôn tập Khoa học tự nhiên 7 chuyên đề Nguyên tố & Liên kết hóa học với trợ lý AI thông minh, ngân hàng 3 bộ đề kiểm tra mẫu chuẩn 4 phần và mô phỏng tương tác.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
