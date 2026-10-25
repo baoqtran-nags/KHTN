@@ -9,6 +9,7 @@ import {
   EssayQuestion,
 } from '../data/examData';
 import { ChemToolbar } from './ChemToolbar';
+import { gradeEssayAI } from '../services/curriculumAiService';
 import {
   CheckCircle,
   XCircle,
@@ -209,27 +210,18 @@ export const ExamView: React.FC<ExamViewProps> = ({ onExamScoreUpdate, onAskAI }
     }));
 
     try {
-      const res = await fetch('/api/gemini/grade-essay', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          questionTitle,
-          questionPrompt: promptText,
-          studentAnswer: studentAns,
-          modelAnswer: modelAnswerText,
-          maxScore,
-        }),
-      });
+      const evaluation = await gradeEssayAI(
+        questionTitle,
+        promptText,
+        studentAns,
+        modelAnswerText,
+        maxScore
+      );
 
-      const data = await res.json();
-      if (res.ok && data.evaluation) {
-        setGradingState((prev) => ({
-          ...prev,
-          [key]: { loading: false, result: data.evaluation },
-        }));
-      } else {
-        throw new Error(data.error || 'Không nhận được kết quả chấm bài.');
-      }
+      setGradingState((prev) => ({
+        ...prev,
+        [key]: { loading: false, result: evaluation },
+      }));
     } catch (err: any) {
       setGradingState((prev) => ({
         ...prev,

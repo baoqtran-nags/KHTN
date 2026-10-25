@@ -98,7 +98,38 @@ npm start
 npm run lint
 ```
 
-Ứng dụng có thể triển khai dễ dàng lên các nền tảng đám mây như **Render**, **Railway**, **Fly.io**, **Vercel** (qua serverless), hoặc chạy bằng **Docker**.
+---
+
+## 🌐 Hướng Dẫn Kích Hoạt GitHub Pages (2 Cách)
+
+Ứng dụng đã được cấu hình đường dẫn tương đối (`base: './'`) và tích hợp sẵn bộ xử lý AI phía client, giúp trang web hoạt động mượt mà 100% trên GitHub Pages mà không bị lỗi 404 hay màn hình trắng!
+
+### Cách 1: Tự động qua GitHub Actions (Khuyên Dùng - Đơn giản nhất)
+1. Đẩy mã nguồn lên repository của bạn trên GitHub (nhánh `main`).
+2. Trên trang GitHub của repository, vào **Settings** > **Pages** (ở thanh menu bên trái).
+3. Tại phần **Build and deployment**:
+   * Mục **Source**: Chọn **GitHub Actions** (thay vì "Deploy from a branch").
+4. GitHub sẽ tự động phát hiện file cấu hình `.github/workflows/deploy.yml` đã tạo sẵn trong mã nguồn, tự động build và xuất bản trang web.
+5. Sau khoảng 1-2 phút, bạn sẽ thấy đường link trang web trực tiếp xuất hiện (ví dụ: `https://<ten-tai-khoan>.github.io/<ten-repo>/`).
+
+### Cách 2: Triển khai nhanh bằng dòng lệnh (`npm run deploy`)
+1. Cài đặt và build đẩy lên nhánh `gh-pages`:
+   ```bash
+   npm run deploy
+   ```
+2. Trên GitHub, vào **Settings** > **Pages**:
+   * Mục **Source**: Chọn **Deploy from a branch**.
+   * Nhánh (Branch): Chọn `gh-pages` và thư mục `/(root)`, sau đó nhấn **Save**.
+3. Trang web sẽ sẵn sàng sau 1 phút!
+
+---
+
+## ☁️ Triển Khai Full-Stack (Render, Railway, Fly.io, Vercel, Docker)
+Nếu muốn chạy ở chế độ máy chủ backend Node.js / Express đầy đủ:
+* Lệnh build: `npm run build`
+* Lệnh start: `npm start` (chạy `NODE_ENV=production tsx server.ts`)
+* Cổng: Tự động nhận biến môi trường `PORT` hoặc mặc định cổng 3000.
+
 
 ---
 

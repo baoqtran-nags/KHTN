@@ -1,6 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Send, Sparkles, Bot, User, Trash2, Copy, Check, Lightbulb, RefreshCw } from 'lucide-react';
 import { ChemToolbar } from './ChemToolbar';
+import { askTutorAI } from '../services/curriculumAiService';
 
 interface Message {
   id: string;
@@ -74,33 +75,20 @@ export const AIAssistantView: React.FC<AIAssistantViewProps> = ({
     setLoading(true);
 
     try {
-      // Build conversation history for API
       const conversationHistory = [...messages, userMessage].map((m) => ({
         role: m.role,
         content: m.content,
       }));
 
-      const res = await fetch('/api/gemini/chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: conversationHistory,
-          userPrompt: text.trim(),
-        }),
-      });
+      const reply = await askTutorAI(text.trim(), conversationHistory);
 
-      const data = await res.json();
-      if (res.ok && data.reply) {
-        const botMessage: Message = {
-          id: (Date.now() + 1).toString(),
-          role: 'model',
-          content: data.reply,
-          timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-        };
-        setMessages((prev) => [...prev, botMessage]);
-      } else {
-        throw new Error(data.error || 'Lỗi nhận diện phản hồi từ AI.');
-      }
+      const botMessage: Message = {
+        id: (Date.now() + 1).toString(),
+        role: 'model',
+        content: reply,
+        timestamp: new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
+      };
+      setMessages((prev) => [...prev, botMessage]);
     } catch (err: any) {
       const errorMessage: Message = {
         id: (Date.now() + 1).toString(),
